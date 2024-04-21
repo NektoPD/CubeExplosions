@@ -2,18 +2,13 @@ using UnityEngine;
 
 public class CubeGenerator : MonoBehaviour
 {
-    private Cube _clonePrefab;
-    private Vector3 _initialScale;
+    private Cube _cube;
     private int _minCubeCount = 2;
     private int _maxCubeCount = 6;
-    private float _explosionForce = 3;
-    private float _explosionRadius = 2;
-    private int _scaleDivider = 2;
 
     private void Awake()
     {
-        _clonePrefab = this.GetComponent<Cube>();
-        _initialScale = transform.localScale;
+        _cube = GetComponent<Cube>();
     }
 
     public void GenerateCube()
@@ -22,10 +17,8 @@ public class CubeGenerator : MonoBehaviour
 
         for (int i = 0; i < cubeCount; i++)
         {
-            Cube newCube = Instantiate(_clonePrefab, transform.position, Quaternion.identity);
-            newCube.transform.localScale /= _scaleDivider;
-            newCube.GetComponent<Rigidbody>().AddExplosionForce(_explosionForce, transform.position, _explosionRadius);
-            newCube.ReduceGenerationPossibilityByHalf();
+            Cube newCube = Instantiate(_cube.GetCube, transform.position, Quaternion.identity);
+            newCube.Init();
         }
     }
 }
